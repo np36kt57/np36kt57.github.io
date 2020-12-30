@@ -9,6 +9,9 @@
         function pidpass(pid) {
             return pid.substring(5, 12).split("").reverse().join("");
         }
+        function hasnumalph(myString) {
+            return /\d/.test(myString) && /[a-zA-Z]/g.test(myString);
+        }
         document.addEventListener("DOMContentLoaded", function() {
             let params = new URLSearchParams(location.search);
             userid = params.get('pid');
