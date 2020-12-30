@@ -31,7 +31,10 @@
                     })
                     .then(function(response) {
                         console.log(response);
-                        document.getElementById("main").style.display = "block";
+                        document.getElementById("feedback_id").innerHTML = response;
+                        if (response.startsWith("We ")) {
+                            document.getElementById("main").style.display = "block";
+                        }
                     })
                     .catch(function(error) {
                         console.log('Request failed: ', error);
