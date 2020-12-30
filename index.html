@@ -31,8 +31,8 @@
                     })
                     .then(function(response) {
                         console.log(response);
-                        document.getElementById("sub").innerHTML = response;
                         if (response.startsWith("We ")) {
+                            document.getElementById("sub").innerHTML = response;
                             document.getElementById("main").style.display = "block";
                         }
                     })
