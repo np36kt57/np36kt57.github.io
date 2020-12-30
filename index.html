@@ -4,34 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
+    <script>
+        let userid
+        document.addEventListener("DOMContentLoaded", function() {
+            let params = new URLSearchParams(location.search);
+            userid = params.get('pid');
+            if (userid == "") {
+                fetch('https://homepage.univie.ac.at/gaspar.lukacs/filler_opt/php/cy_load.php', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_post: userid
+                        })
+                    })
+                    .then(function(response) {
+                        return response.text();
+                    })
+                    .then(function(response) {
+                        var feed;
+                        if (response.slice(0, 7) == 'victory') {
+                            document.getElementById("feedback_id").style.color = 'green';
+                            response = response.slice(7)
+                            if (response.slice(0, 6) == 'insert') {
+                                response = response.slice(6)
+                                feed = "Data saved:<br>" + response.replace(/","/g, ", ");
+                            } else if (response.slice(0, 6) == 'update') {
+                                response = response.slice(6)
+                                feed = "Data updated. Saved:<br>" + response.replace(/","/g, ", ");
+                            }
+                        } else {
+                            document.getElementById("feedback_id").style.color = 'red';
+                            feed = 'Error. ' + response;
+                        }
+                        document.getElementById("feedback_id").innerHTML = feed + "<br>";
+                    })
+                    .catch(function(error) {
+                        console.log('Request failed: ', error);
+                        document.getElementById("feedback_id").style.color = 'red';
+                        var feed = 'Could not connect to server. ' + error;
+                        document.getElementById("feedback_id").innerHTML = feed + "<br>";
+                    });
+
+
+
+
+                document.getElementById("main").style.display = "block";
+            }
+
+        });
+    </script>
 </head>
 
 <body class="notranslate">
 
-<b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings!)</b><br><br>
-If you found any credit card details, copy them here exactly as you find them! <br>
-<br><br>
-Given (first) name of the account holder:
-<br>
-Family (last) name of the account holder:
-<br>
-Name of the bank:
-<br>
-Credit card number:
-<br>
-Expiration date (in the format mm/yy):
-<br>
-PIN (4 digits):
-<br><br>
-<button class="intro_button" onclick="submitted();">
+    <div id="sub">
+        ...
+    </div>
+    <div id="main" style="display:none;">
+        <b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings! Do not share the password with anyone else!)</b><br><br>
+        If you found any credit card details, copy them here exactly as you find them! <br>
+        <br><br>
+        Given (first) name of the account holder: <input id="name1" type="text">
+        <br>
+        Family (last) name of the account holder: <input id="name2" type="text">
+        <br>
+        Name of the bank: <input id="bank" type="text">
+        <br>
+        Credit card number: <input id="cardnumber" type="text">
+        <br>
+        Expiration date (in the format mm/yy):  <input id="date1" type="number" size="2">/<input id="date2" type="number" size="2">
+        <br>
+        PIN (4 digits): <input id="pin" type="number" size="4">
+        <br><br>
+        <button class="intro_button" onclick="sending();">send</button>
 
-<br><br>
-** Attempting to access bank account. Please wait. **
-<br><br>
-We cannot find a bank account with these details. Please try again with correct details.
-<br><br>
+        <br><br>
+        <span id="feed" style="color:red">
+        ** Attempting to access bank account. Please wait. **
+        <br><br>
+        We cannot find a bank account with these details. Please try again with correct details.
+        <br><br>
 
 
+    </div>
 </body>
 
 </html>
