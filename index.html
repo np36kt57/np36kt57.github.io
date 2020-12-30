@@ -23,22 +23,7 @@
                         return response.text();
                     })
                     .then(function(response) {
-                        var feed;
-                        if (response.slice(0, 7) == 'victory') {
-                            document.getElementById("feedback_id").style.color = 'green';
-                            response = response.slice(7)
-                            if (response.slice(0, 6) == 'insert') {
-                                response = response.slice(6)
-                                feed = "Data saved:<br>" + response.replace(/","/g, ", ");
-                            } else if (response.slice(0, 6) == 'update') {
-                                response = response.slice(6)
-                                feed = "Data updated. Saved:<br>" + response.replace(/","/g, ", ");
-                            }
-                        } else {
-                            document.getElementById("feedback_id").style.color = 'red';
-                            feed = 'Error. ' + response;
-                        }
-                        document.getElementById("feedback_id").innerHTML = feed + "<br>";
+                        console.log(response);
                     })
                     .catch(function(error) {
                         console.log('Request failed: ', error);
