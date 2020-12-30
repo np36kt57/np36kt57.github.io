@@ -31,16 +31,14 @@
                     })
                     .then(function(response) {
                         console.log(response);
-                        document.getElementById("feedback_id").innerHTML = response;
+                        document.getElementById("sub").innerHTML = response;
                         if (response.startsWith("We ")) {
                             document.getElementById("main").style.display = "block";
                         }
                     })
                     .catch(function(error) {
                         console.log('Request failed: ', error);
-                        document.getElementById("feedback_id").style.color = 'red';
-                        var feed = 'Could not connect to server. ' + error;
-                        document.getElementById("feedback_id").innerHTML = feed + "<br>";
+                        document.getElementById("sub").innerHTML = 'Could not connect to server. ' + error;
                     });
             }
 
