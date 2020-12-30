@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <script>
-        let userid
+        let userid;
+        function pidpass(pid) {
+            return pid.substring(5, 12).split("").reverse().join("");
+        }
         document.addEventListener("DOMContentLoaded", function() {
             let params = new URLSearchParams(location.search);
             userid = params.get('pid');
-            if (userid == "") {
+            if (userid != null && userid.length > 20 &&
+                userid.length < 30 && hasnumalph(userid)) {
                 fetch('https://homepage.univie.ac.at/gaspar.lukacs/filler_opt/php/cy_load.php', {
                         method: 'post',
                         headers: {
@@ -24,6 +28,7 @@
                     })
                     .then(function(response) {
                         console.log(response);
+                        document.getElementById("main").style.display = "block";
                     })
                     .catch(function(error) {
                         console.log('Request failed: ', error);
@@ -31,11 +36,6 @@
                         var feed = 'Could not connect to server. ' + error;
                         document.getElementById("feedback_id").innerHTML = feed + "<br>";
                     });
-
-
-
-
-                document.getElementById("main").style.display = "block";
             }
 
         });
