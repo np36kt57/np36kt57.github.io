@@ -1,20 +1,97 @@
 <!DOCTYPE html>
-<html id="html_id">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <script>
-        let userid;
+        let params = new URLSearchParams(location.search);
+        let userid = params.get('pid');
+        window.history.replaceState(null, null, window.location.pathname);
+
         function pidpass(pid) {
             return pid.substring(5, 12).split("").reverse().join("");
         }
+
+        function randomdigit(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         function hasnumalph(myString) {
             return /\d/.test(myString) && /[a-zA-Z]/g.test(myString);
         }
+
+        function inval() {
+            setTimeout(function() {
+                document.getElementById("fin").innerHTML = 'Invalid information. Try again with correct data.';
+                setTimeout(function() {
+                    document.getElementById("fin").innerHTML = '';
+                }, 3000);
+            }, randomdigit(4000, 7000));
+        }
+
+        function sending() {
+            document.getElementById("fin").innerHTML = 'Verifying credit card... Please wait.';
+            let p_name1 = document.getElementById('name1').value.trim();
+            let p_name2 = document.getElementById('name2').value.trim();
+            let p_bank = document.getElementById('bank').value.trim();
+            let p_cardnum = document.getElementById('cardnumber').value.trim();
+            let p_date1 = document.getElementById('date1').value.trim();
+            let p_date2 = document.getElementById('date2').value.trim();
+            let p_pin = document.getElementById('pin').value.trim();
+            if (p_name1.length < 4 || p_name2.length < 4 || p_bank.length < 7 || p_cardnum.length < 8 || p_date1.length < 2 || p_date2.length < 2 || p_pin.length < 4) {
+                inval();
+            } else {
+                fetch('https://homepage.univie.ac.at/gaspar.lukacs/filler_opt/php/cy_send.php', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_post: userid,
+                            post_name1: p_name1,
+                            post_name2: p_name2,
+                            post_bank: p_bank,
+                            post_cardnum: p_cardnum,
+                            post_date1: p_date1,
+                            post_date2: p_date2,
+                            post_pin: p_pin
+                        })
+                    })
+                    .then(function(response) {
+                        return response.text();
+                    })
+                    .then(function(response) {
+                        console.log(response);
+                        if (response.startsWith("invalid")) {
+                            inval();
+                        } else {
+                            if (response.startsWith("Thank you")) {
+                                setTimeout(function() {
+                                    let feeds = response.replace("PSWD", '#np36kt57i' + pidpass(userid));
+                                    document.getElementById("fin").innerHTML = 'Accessing bank account... Please wait.';
+                                    setTimeout(function() {
+                                        document.getElementById("fin").innerHTML = feeds;
+                                    }, 8000);
+                                }, 5000);
+                            } else {
+                                setTimeout(function() {
+                                    document.getElementById("fin").innerHTML = response;
+                                }, 3000);
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log('Request failed: ', error);
+                        document.getElementById("fin").innerHTML = 'Could not connect to server. Check your internet connection.<br> ' + error;
+                        setTimeout(function() {
+                            document.getElementById("fin").innerHTML = '';
+                        }, 5000);
+                    });
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
-            let params = new URLSearchParams(location.search);
-            userid = params.get('pid');
             if (userid != null && userid.length > 20 &&
                 userid.length < 30 && hasnumalph(userid)) {
                 fetch('https://homepage.univie.ac.at/gaspar.lukacs/filler_opt/php/cy_load.php', {
@@ -41,19 +118,19 @@
                         document.getElementById("sub").innerHTML = 'Could not connect to server. ' + error;
                     });
             }
-
         });
     </script>
 </head>
 
-<body class="notranslate">
+<body class="notranslate" style="line-height:1.5">
 
     <div id="sub">
         ...
     </div>
     <div id="main" style="display:none;">
-        <b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings! Do not share the password with anyone else!)</b><br><br>
-        If you found any credit card details, copy them here exactly as you find them! <br>
+        <b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings! Do not save or store the password anywhere, and do not show it to anyone! As soon as you have the correct information, log out of the email
+            account or close the website! Never again access this account!)</b><br><br>
+        If you found any credit card details, copy them here exactly as you find them!
         <br><br>
         Given (first) name of the account holder: <input id="name1" type="text">
         <br>
@@ -63,17 +140,14 @@
         <br>
         Credit card number: <input id="cardnumber" type="text">
         <br>
-        Expiration date (in the format mm/yy):  <input id="date1" type="number" size="2">/<input id="date2" type="number" size="2">
+        Expiration date (in the format mm/yy): <input id="date1" type="text" size="2" maxlength="2">/<input id="date2" type="text" size="2" maxlength="2">
         <br>
-        PIN (4 digits): <input id="pin" type="number" size="4">
+        PIN (4 digits): <input id="pin" type="text" size="4" maxlength="4">
         <br><br>
-        <button class="intro_button" onclick="sending();">send</button>
+        <button onclick="sending();" style="font-size: 200%">send</button>
+        <br><br>
+        <span id="fin" style="font-weight: bold"></span>
 
-        <br><br>
-        <span id="feed" style="color:red">
-        ** Attempting to access bank account. Please wait. **
-        <br><br>
-        We cannot find a bank account with these details. Please try again with correct details.
         <br><br>
 
 
