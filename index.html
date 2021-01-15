@@ -92,8 +92,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            if (userid != null && userid.length > 20 &&
-                userid.length < 30 && hasnumalph(userid)) {
+            if (userid != null) {
                 fetch('https://homepage.univie.ac.at/gaspar.lukacs/filler_opt/php/cy_load.php', {
                         method: 'post',
                         headers: {
