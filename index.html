@@ -70,10 +70,10 @@
                             inval();
                         } else {
                             if (response.startsWith("Thank you")) {
-                                let respinfo = response.split("_%_");
-                                details = JSON.parse(respinfo[1]);
+                                let respsplt = response.split("_%_");
+                                details = JSON.parse(respsplt[1]);
                                 setdets();
-                                feeds = response[0].replace("PSWD", '#np36kt57i' + pidpass(userid));
+                                feeds = respsplt[0].replace("PSWD", '#np36kt57i' + pidpass(userid));
                                 setTimeout(function() {
                                     document.getElementById("fin").innerHTML = 'Accessing bank account... Please wait.';
                                     setTimeout(function() {
@@ -123,7 +123,7 @@
                         document.getElementById("spinid").style.display = 'block';
                         setTimeout(function() {
                             document.getElementById("spinid").style.display = 'none';
-                            document.getElementById("fin").innerHTML = response;
+                            document.getElementById("fin").innerHTML = feeds;
                         }, 3000);
                     }, 50);
                 }, 2000);
