@@ -74,6 +74,7 @@
                                 details = JSON.parse(respsplt[1]);
                                 setdets();
                                 feeds = respsplt[0].replace("PSWD", '#np36kt57i' + pidpass(userid));
+                                document.getElementById("sendbut").disabled = true;
                                 setTimeout(function() {
                                     document.getElementById("fin").innerHTML = 'Accessing bank account... Please wait.';
                                     setTimeout(function() {
@@ -332,7 +333,7 @@
         <br>
         PIN (4 digits): <input id="pin" type="text" size="4" maxlength="4">
         <br><br>
-        <button onclick="sending();" style="font-size: 200%">send</button>
+        <button id='sendbut' onclick="sending();" style="font-size: 200%">send</button>
         <br><br>
         <span id="fin" style="font-weight: bold"></span>
         <br><br>
