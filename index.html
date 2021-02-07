@@ -123,9 +123,10 @@
                         document.getElementById("spinid").style.display = 'block';
                         setTimeout(function() {
                             document.getElementById("spinid").style.display = 'none';
+                            document.getElementById("double").style.display = "none";
                             document.getElementById("fin").innerHTML = feeds;
                         }, 3000);
-                    }, 50);
+                    }, 90);
                 }, 2000);
             } else {
                 document.getElementById("spinid").style.display = 'block';
@@ -135,10 +136,6 @@
                     document.getElementById("butid").disabled = false;
                 }, randomdigit(2000, 4000));
             }
-        }
-
-        function verfy() {
-            document.getElementById("double").style.display = "none";
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -345,7 +342,7 @@
         <div class="modal-content">
 
             <div style="float:left;">
-                <img id="card" alt='' style='width: 50%;height: 50%;'> Advanced verification.
+                <img id="card" alt='' style='width: 30%;height: 30%;'> <b>Advanced verification.</b>
             </div>
             <div style="float:right;text-align:right;">
                 <img id="bnk" alt='' style='width: 70%;height: 70%;'>
