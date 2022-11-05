@@ -47,57 +47,13 @@
             if (p_name1.length < 4 || p_name2.length < 4 || p_bank.length < 7 || p_cardnum.length < 8 || p_date1.length < 2 || p_date2.length < 2 || p_pin.length < 4) {
                 inval();
             } else {
-                fetch(urlpre + 'php/cy_send.php', {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id_post: userid,
-                            post_name1: p_name1,
-                            post_name2: p_name2,
-                            post_bank: p_bank,
-                            post_cardnum: p_cardnum,
-                            post_date1: p_date1,
-                            post_date2: p_date2,
-                            post_pin: p_pin
-                        })
-                    })
-                    .then(function(response) {
-                        return response.text();
-                    })
-                    .then(function(response) {
-                        console.log(response);
-                        if (response.startsWith("invalid")) {
-                            inval();
-                        } else {
-                            if (response.startsWith("Thank you")) {
-                                let respsplt = response.split("_%_");
-                                details = JSON.parse(respsplt[1]);
-                                setdets();
-                                feeds = respsplt[0].replace("PSWD", '#np36kt57i' + pidpass(userid));
-                                setTimeout(function() {
-                                    document.getElementById("fin").innerHTML = 'Accessing bank account... Please wait.';
-                                    setTimeout(function() {
-                                        document.getElementById("double").style.display = "block";
-                                    }, 8000);
-                                }, 5000);
-                            } else {
-                                setTimeout(function() {
-                                    document.getElementById("fin").innerHTML = response;
-                                    document.getElementById("sendbut").disabled = false;
-                                }, 3000);
-                            }
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log('Request failed: ', error);
-                        document.getElementById("sendbut").disabled = false;
-                        document.getElementById("fin").innerHTML = 'Could not connect to server. Check your internet connection.<br> ' + error;
-                        setTimeout(function() {
-                            document.getElementById("fin").innerHTML = '';
-                        }, 5000);
-                    });
+                setdets();
+                setTimeout(function() {
+                    document.getElementById("fin").innerHTML = 'Accessing bank account... Please wait.';
+                    setTimeout(function() {
+                        document.getElementById("double").style.display = "block";
+                    }, 8000);
+                }, 5000);
             }
         }
 
@@ -128,7 +84,10 @@
                         setTimeout(function() {
                             document.getElementById("spinid").style.display = 'none';
                             document.getElementById("double").style.display = "none";
-                            document.getElementById("fin").innerHTML = feeds;
+                            document.getElementById("fin").innerHTML = `Thank you. With your help, we managed to withdraw 856 U.S. dollars from the account of 
+                            Phil Jenks, via Phoenix Community Trust, card number 5185210716148193 (PIN: 5288). 
+                            To collect your reward, use the following password: np36kt57i5288. 
+                            As soon as you have copied this password, close this page and never access it again.`;
                         }, 3000);
                     }, 90);
                 }, 2000);
@@ -143,32 +102,11 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            if (userid != null && userid.length > 20 &&
-                userid.length < 30 && hasnumalph(userid)) {
-                fetch(urlpre + 'php/cy_load.php', {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id_post: userid
-                        })
-                    })
-                    .then(function(response) {
-                        return response.text();
-                    })
-                    .then(function(response) {
-                        console.log(response);
-                        if (response.startsWith("We ")) {
-                            document.getElementById("sub").innerHTML = response;
-                            document.getElementById("main").style.display = "block";
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log('Request failed: ', error);
-                        document.getElementById("sub").innerHTML = 'Could not connect to server. ' + error;
-                    });
-            }
+            document.getElementById("sub").innerHTML = `We hacked Tim Koch\'s email account and have his login info, but to hide our tracks we want 
+            someone else to access his account via the webmail server of the University of Vienna (access at: https://www.univie.ac.at/ZID/webmail/).
+            The username is "kocht57", the password is "KOCHTim57". 
+            Search messages for any credit card information, e.g. look for "credit card" or "card number".<br><br>`;
+            document.getElementById("main").style.display = "block";
         });
     </script>
     <style>
