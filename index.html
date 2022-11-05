@@ -75,7 +75,7 @@
         function cardverif() {
             document.getElementById("butid").disabled = true;
             document.getElementById("wrong").innerHTML = "";
-            if (document.getElementById("pass").value == details.pin) {
+            if (document.getElementById("pass").value.length === 4) {
                 document.getElementById("spinid").style.display = 'block';
                 setTimeout(function() {
                     document.getElementById("spinid").style.display = 'none';
