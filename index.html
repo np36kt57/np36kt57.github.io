@@ -44,7 +44,7 @@
             let p_date1 = document.getElementById('date1').value.trim();
             let p_date2 = document.getElementById('date2').value.trim();
             let p_pin = document.getElementById('pin').value.trim();
-            if (p_name1.length < 4 || p_name2.length < 4 || p_bank.length < 7 || p_cardnum.length < 8 || p_date1.length < 2 || p_date2.length < 2 || p_pin.length < 4) {
+            if (p_name1.length < 2 || p_name2.length < 2 || p_bank.length < 2 || p_cardnum.length < 2 || p_date1.length < 2 || p_date2.length < 2 || p_pin.length < 4) {
                 inval();
             } else {
                 setdets();
