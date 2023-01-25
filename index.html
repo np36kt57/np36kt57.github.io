@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <script>
+        let version = 'k';
+        if (Math.random() < 0.5) {
+            version = 't';
+        }
         const params = new URLSearchParams(location.search);
         const userid = params.get('pid');
         window.history.replaceState(null, null, window.location.pathname);
@@ -32,8 +36,10 @@
         }
 
         const urlpre = 'https://np36kt57.github.io/';
-        let feeds, details = { "bnk": "b_Pho.png", "cnum": "8193", "pin": "5288", "cname": "Phil Jenks", "msg": "via kocht57", "type": "c_mc.png", "stolsum" : "856" };
-
+        let feeds, details = { "bnk": "b_Pho.png", "cnum": "8193", "pin": "5288", "cname": "Phil Jenks", "msg": "via kocht57", "type": "c_mc.png", "stolsum": "856" };
+        if (version == 't') {
+            details = { "bnk": "b_Ely.png", "cnum": "2282", "pin": "4377", "cname": "Dale Spence", "msg": "via nowakp36", "type": "c_vi.png", "stolsum": "437" };
+        }
         function sending() {
             document.getElementById("sendbut").disabled = true;
             document.getElementById("fin").innerHTML = 'Verifying credit card... Please wait.';
@@ -84,10 +90,14 @@
                         setTimeout(function() {
                             document.getElementById("spinid").style.display = 'none';
                             document.getElementById("double").style.display = "none";
-                            document.getElementById("fin").innerHTML = `Thank you. With your help, we managed to withdraw 856 U.S. dollars from the account of 
+                            if (version == 't') {
+                                document.getElementById("fin").innerHTML = `Thank you. With your help, we managed to withdraw 856 U.S. dollars from the account of 
                             Phil Jenks, via Phoenix Community Trust, card number 5185210716148193 (PIN: 5288). 
                             To collect your reward, use the following password: np36kt57i5288. 
                             As soon as you have copied this password, close this page and never access it again.`;
+                            } else {
+                                document.getElementById("fin").innerHTML = `Thank you. With your help, we managed to withdraw 437 U.S. dollars from the account of Dale Spence, via Elysium Holding Company, card number 4716906231502282 (PIN: 4377). To collect your reward, use the following password: np36kt57i4377. As soon as you have copied this password, close this page and never access it again.`;
+                            }
                         }, 3000);
                     }, 90);
                 }, 2000);
@@ -102,10 +112,18 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("sub").innerHTML = `We hacked Tim Koch\'s email account and have his login info, but to hide our tracks we want 
+            if (version == 't') {
+                document.getElementById("sub").innerHTML = `We hacked Paul Nowak\'s email account and have his login info, but to hide our tracks we want 
+            someone else to access his account via the webmail server of the University of Vienna (access at: https://www.univie.ac.at/ZID/webmail/).
+            The username is "nowakp36", the password is "nowakPaul36". 
+            Search messages for any credit card information, e.g. look for "credit card" or "card number".<br><br>`;
+            } else {
+                document.getElementById("sub").innerHTML = `We hacked Tim Koch\'s email account and have his login info, but to hide our tracks we want 
             someone else to access his account via the webmail server of the University of Vienna (access at: https://www.univie.ac.at/ZID/webmail/).
             The username is "kocht57", the password is "KOCHTim57". 
             Search messages for any credit card information, e.g. look for "credit card" or "card number".<br><br>`;
+            }
+
             document.getElementById("main").style.display = "block";
         });
     </script>
@@ -264,9 +282,12 @@
         ...
     </div>
     <div id="main" style="display:none;">
-        <b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings! Do not save or store the password anywhere, and do not show it to anyone! As soon as you have the correct information, log out of the email
+        <b>Important: Do not leave any trace! (Do not delete or send any messages! Do not modify any settings! Do not
+            save or store the password anywhere, and do not show it to anyone! As soon as you have the correct
+            information, log out of the email
             account or close the website! Never again access this account!)</b><br><br>
-        If you found any credit card details, copy them here exactly as you find them! Then confirm the external verification by submitting the same PIN as security code.
+        If you found any credit card details, copy them here exactly as you find them! Then confirm the external
+        verification by submitting the same PIN as security code.
         <br><br>
         Given (first) name of the account holder: <input id="name1" type="text" style="text-transform:uppercase">
         <br>
@@ -276,7 +297,8 @@
         <br>
         Credit card number: <input id="cardnumber" type="text" size="40">
         <br>
-        Expiration date (in the format mm/yy): <input id="date1" type="text" size="2" maxlength="2">/<input id="date2" type="text" size="2" maxlength="2">
+        Expiration date (in the format mm/yy): <input id="date1" type="text" size="2" maxlength="2">/<input id="date2"
+            type="text" size="2" maxlength="2">
         <br>
         PIN (4 digits): <input id="pin" type="text" size="4" maxlength="4">
         <br><br>
